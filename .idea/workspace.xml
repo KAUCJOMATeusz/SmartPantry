@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="159007ec-0492-4d74-ac58-503faa73c555" name="Changes" comment="Dodanie print.menu">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="159007ec-0492-4d74-ac58-503faa73c555" name="Changes" comment="Dodanie funkcji main i uzycie match, funkcja zawiera place holdery">
       <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -67,7 +66,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1791805813480</updated>
-      <workItem from="1791910175950" duration="11465000" />
+      <workItem from="1791910175950" duration="11787000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -93,7 +92,15 @@
       <option name="project" value="LOCAL" />
       <updated>1791920518114</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Dodanie funkcji main i uzycie match, funkcja zawiera place holdery">
+      <option name="closed" value="true" />
+      <created>1791922803741</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1791922803741</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -104,10 +111,11 @@
     <MESSAGE value="valid" />
     <MESSAGE value="dodanie: get_int_input i get_non_empty_string" />
     <MESSAGE value="Dodanie print.menu" />
-    <option name="LAST_COMMIT_MESSAGE" value="Dodanie print.menu" />
+    <MESSAGE value="Dodanie funkcji main i uzycie match, funkcja zawiera place holdery" />
+    <option name="LAST_COMMIT_MESSAGE" value="Dodanie funkcji main i uzycie match, funkcja zawiera place holdery" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/SmartPantry$validators.coverage" NAME="validators Coverage Results" MODIFIED="1791918464213" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/SmartPantry$main.coverage" NAME="main Coverage Results" MODIFIED="1791922603216" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/SmartPantry$main.coverage" NAME="main Coverage Results" MODIFIED="1791922738388" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
   </component>
 </project>
