@@ -28,7 +28,3 @@ def get_non_empty_string(prompt: str) -> str:
             print("Błąd wartości: pole jest puste")
         else:
             return raw
-
-
-
-

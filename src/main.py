@@ -29,4 +29,3 @@ def main():
             case _:
                     print("Nieznana opcja wybierz 1-4")
                     running = True
-
