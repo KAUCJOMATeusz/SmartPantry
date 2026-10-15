@@ -4,13 +4,13 @@ def display_items(items_list: list):
         return
 
     print("\n" + "_" * 40)
-    print(f"| {'ID':<2} | {'Nazwa produktu':<20} | {'Data ważności':<13} | {'Ilość':<9} |")
+    print(f"| {'ID':<2} | {'Nazwa produktu':<20} | {'Data ważności':<13} | {'Ilość':<8} |")
 
 
 
     for item in items_list:
         alert = "[!]" if item['quantity'] < 3 else ""
-        print(f"| {item['id']:<2} | {item['name']:<20} | {item['exp_date']:<13} | {item['quantity']:}{alert:<9}|")
+        print(f"| {item['id']:<2} | {item['name']:<20} | {item['exp_date']:<13} | {item['quantity']:}{alert:<8}|")
 
 
 def add_item(items_list: list, new_item_data: dict):
