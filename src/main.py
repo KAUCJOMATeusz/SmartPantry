@@ -2,7 +2,7 @@ from src.data import MENU_CATALOG
 from src.services import display_items
 from src.services import add_item
 from src.validators import get_non_empty_string, get_int_input
-
+from src.validators import get_float_input
 
 def print_menu():
     print("\n" + "_" * 40)
@@ -23,20 +23,25 @@ def main():
         choice = input("Wybierz opcje [1-4]")
         match choice.strip():
             case "1":
-                display_items(MENU_CATALOG)
+                display_items(  MENU_CATALOG)
+
 
             case "2":
                 print("Dodaj nowy produkt")
-                name = get_non_empty_string("Podaj nazwę produktu:")
-                exp_date = get_non_empty_string("Podaj datę ważności:")
-                quantity = get_non_empty_string("Podaj ilość")
+                name = get_non_empty_string("Podaj nazwę produktu: ")
+                exp_date = get_non_empty_string("Podaj datę ważności: ")
+                weight = get_float_input("Podaj masę w gramach: ")
+                quantity = get_int_input("Podaj ilość: ")
 
                 new_item = {
                     "name": name,
                     "exp_date": exp_date,
+                    "weight": weight,
                     "quantity": quantity
                 }
-                add_item(MENU_CATALOG, new_item)
+                if add_item(MENU_CATALOG, new_item):
+                    print(f"\n Pomyślnie dodano produkt\n")
+
             case "3":
                 print("Sprawdzanie ilości produkt")
 
