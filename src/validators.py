@@ -32,14 +32,3 @@ def get_non_empty_string(prompt: str) -> str:
 
 
 
-def get_float_input(prompt: str, min_value: float = 0.0) -> float:
-    while True:
-        raw=input(prompt).strip().replace(",", ".")
-        try:
-            val = float(raw)
-            if val < min_value:
-                print(f"Błąd: Wartość nie może być mniejsza niż {min_value:.2f}.")
-                continue
-            return val
-        except ValueError:
-            print(f"Błąd: '{raw}' nie jest poprawną liczbą.")
