@@ -11,7 +11,9 @@ def print_menu():
     print("1.Wyświetl zawartość spiżarni")
     print("2.Dodaj nowy produkt")
     print("3.Sprawdzenie ilości produktów")
-    print("4.Wyjście z programu")
+    print("4.Wypisanie tekstu w terminalu")
+    print("5.Wyjście z programu")
+
     print("_" * 40)
 
 def main():
@@ -22,6 +24,7 @@ def main():
         match choice.strip():
             case "1":
                 display_items(MENU_CATALOG)
+
             case "2":
                 print("Dodaj nowy produkt")
                 name = get_non_empty_string("Podaj nazwę produktu:")
@@ -39,9 +42,17 @@ def main():
 
                 max_qty = get_int_input("Pokaż produkty, których ilość jest <= ", min_value=1)
                 filtered_list = [item for item in MENU_CATALOG if item["quantity"] <= max_qty]
+                low_gty = [item for item in MENU_CATALOG if item["quantity"] == 0]
                 display_items(filtered_list)
+                print("Uwaga! Następujące produkty sie skonczyly:")
+                display_items(low_gty)
 
-            case "4" | "q" | "exit":
+
+            case "4":
+                tekst = input("Podaj tekst: ")
+                print(tekst)
+
+            case "5" | "q" | "exit":
                 print("Zamykanie programu...")
                 running = False
             case _:
