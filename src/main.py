@@ -26,7 +26,7 @@ def main():
         choice = input("Wybierz opcje [1-5]")
         match choice.strip():
             case "1":
-                display_items(safe_load_pantry)
+                display_items(safe_load_pantry())
 
 
             case "2":
@@ -37,14 +37,14 @@ def main():
                 quantity = get_int_input("Podaj ilość: ")
 
                 new_item = {
-                    "id": len(safe_load_pantry) + 1,
+                    "id": len(safe_load_pantry()) + 1,
                     "name": name,
                     "exp_date": exp_date,
                     "weight": weight,
                     "quantity": quantity
                 }
-                if add_item(pantry_catalog, new_item):
-                    save_pantry(pantry_catalog)
+                if add_item(safe_load_pantry(), new_item):
+                    save_pantry(safe_load_pantry())
                     print("\n[SUKCES] Pomyślnie dodano i zapisano produkt!\n")
 
             case "3":
@@ -56,8 +56,8 @@ def main():
                 print("\n--- SPRAWDDZANIE ILOŚCI PRODUKTÓW ---")
                 max_qty = get_int_input("Pokaż produkty, których ilość jest <= ", min_value=0)
 
-                filtered_list = [item for item in pantry_catalog if item["quantity"] <= max_qty]
-                low_qty = [item for item in pantry_catalog if item["quantity"] == 0]
+                filtered_list = [item for item in safe_load_pantry() if item["quantity"] <= max_qty]
+                low_qty = [item for item in safe_load_pantry() if item["quantity"] == 0]
 
                 print(f"\nProdukty w ilości <= {max_qty}:")
                 display_items(filtered_list)
@@ -71,14 +71,14 @@ def main():
 
             case "4":
                 print("\n--- EKSPORT BRAKUJĄCYCH SKŁADNIKÓW DO CSV ---")
-                # Filtrujemy produkty, których ilość wynosi 0
-                missing_items = [item for item in pantry_catalog if item["quantity"] == 0]
+
+                missing_items = [item for item in safe_load_pantry() if item["quantity"] == 0]
 
                 if not missing_items:
                     print("Brak brakujących produktów (wszystko jest na stanie). Eksport pominięty.")
                     continue
 
-                # Tworzymy folder na eksporty, jeśli nie istnieje
+
                 exports_dir = BASE_DIR / "exports"
                 exports_dir.mkdir(parents=True, exist_ok=True)
                 csv_path = exports_dir / "shopping_list.csv"
