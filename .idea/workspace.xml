@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="159007ec-0492-4d74-ac58-503faa73c555" name="Changes" comment="dodanie walidacji przy dodawaniu wagi produktu">
-      <change afterPath="$PROJECT_DIR$/src/storage.py" afterDir="false" />
+    <list default="true" id="159007ec-0492-4d74-ac58-503faa73c555" name="Changes" comment="stworzenie pliku storage.py z funkcjami: otwierającą i dodającą produkty">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/storage.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/storage.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +118,7 @@
       <workItem from="1791910175950" duration="12103000" />
       <workItem from="1792006257751" duration="1412000" />
       <workItem from="1792087342278" duration="151000" />
-      <workItem from="1792681671664" duration="4247000" />
+      <workItem from="1792681671664" duration="6296000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -185,7 +184,15 @@
       <option name="project" value="LOCAL" />
       <updated>1792083818842</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="stworzenie pliku storage.py z funkcjami: otwierającą i dodającą produkty">
+      <option name="closed" value="true" />
+      <created>1792686603105</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1792686603105</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -227,10 +234,11 @@
     <MESSAGE value="walidacja float" />
     <MESSAGE value="ostrzeżenie o małej ilości" />
     <MESSAGE value="dodanie walidacji przy dodawaniu wagi produktu" />
-    <option name="LAST_COMMIT_MESSAGE" value="dodanie walidacji przy dodawaniu wagi produktu" />
+    <MESSAGE value="stworzenie pliku storage.py z funkcjami: otwierającą i dodającą produkty" />
+    <option name="LAST_COMMIT_MESSAGE" value="stworzenie pliku storage.py z funkcjami: otwierającą i dodającą produkty" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/SmartPantry$storage.coverage" NAME="storage Coverage Results" MODIFIED="1792686341572" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/SmartPantry$storage.coverage" NAME="storage Coverage Results" MODIFIED="1792686410038" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/SmartPantry$validators.coverage" NAME="validators Coverage Results" MODIFIED="1791918464213" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/SmartPantry$main.coverage" NAME="main Coverage Results" MODIFIED="1792087360809" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/SmartPantry$services.coverage" NAME="services Coverage Results" MODIFIED="1792083400374" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
