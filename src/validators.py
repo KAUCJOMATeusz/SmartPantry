@@ -20,7 +20,7 @@ def get_int_input(
             except ValueError:
                 print(f"Błąd: '{raw}' nie jest liczbą całkowitą")
 
-    """promt domyslnie zwraca str"""
+
 def get_non_empty_string(prompt: str) -> str:
     while True:
         raw=input(prompt).strip()

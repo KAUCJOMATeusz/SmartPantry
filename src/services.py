@@ -3,15 +3,15 @@ def display_items(items_list: list):
         print("Spiżarnia jest pusta.")
         return
 
-    print("\n" + "_" * 40)
+    print("\n" + "_" * 77)
     print(f"| {'ID':<2} | {'Nazwa produktu':<20} | {'Data ważności':<13} | {'Waga w gramach':<18} | {'Ilość':<8} |")
-
+    #print("_" * 77)
 
 
     for item in items_list:
         alert = "[!]" if item['quantity'] < 3 else ""
         print(f"| {item['id']:<2} | {item['name']:<20} | {item['exp_date']:<13} | {item['weight']:<18} | {item['quantity']:}{alert:<8}|")
-
+    print("_" * 77)
 
 def add_item(items_list: list, new_item_data: dict):
 
@@ -22,3 +22,4 @@ def add_item(items_list: list, new_item_data: dict):
 
     items_list.append(new_item_data)
     print(f"Pomyślnie dodano produkt: {new_item_data['name']} (przyznane ID: {new_id})")
+    return True

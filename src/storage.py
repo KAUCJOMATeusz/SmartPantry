@@ -2,7 +2,7 @@ import csv
 import json
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "data"
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 DATA_PATH = DATA_DIR / "pantry_stock.json"
@@ -34,7 +34,7 @@ def save_pantry(items_list: list[dict]):
 
 
 def export_shopping_list(items_list: list[dict]) -> int:
-    shortages = [i for i in items_list if i["quantity"] < 2]
+    shortages = [i for i in items_list if i["quantity"] ==  0]
 
     if not shortages:
         return 0
