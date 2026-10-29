@@ -5,7 +5,7 @@ def display_items(items_list: list):
 
     print("\n" + "_" * 77)
     print(f"| {'ID':<2} | {'Nazwa produktu':<20} | {'Data ważności':<13} | {'Waga w gramach':<18} | {'Ilość':<8} |")
-    #print("_" * 77)
+    print("_" * 77)
 
 
     for item in items_list:

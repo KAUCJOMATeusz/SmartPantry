@@ -1,44 +1,58 @@
 [
-    {
-        "id": 1,
-        "name": "Makaron spaghetti",
-        "exp_date": "2027-03-20",
-        "quantity": 4,
-        "weight": 500
-    },
-    {
-        "id": 2,
-        "name": "Mleko UHT",
-        "exp_date": "2026-12-15",
-        "quantity": 6,
-        "weight": 250
-    },
-    {
-        "id": 3,
-        "name": "Kawa ziarnista",
-        "exp_date": "2027-10-28",
-        "quantity": 2,
-        "weight": 480
-    },
-    {
-        "name": "Ser żółty",
-        "exp_date": "2026-10-15",
-        "weight": 248.879,
-        "quantity": 0,
-        "id": 4
-    },
-    {
-        "name": "Herbata czarna",
-        "exp_date": "2028-07-22",
-        "weight": 80.0,
-        "quantity": 0,
-        "id": 5
-    },
-    {
-        "name": "Śmietana 30%",
-        "exp_date": "2026-12-28",
-        "weight": 300.0,
-        "quantity": 0,
-        "id": 6
-    }
+        {
+                "id": 1,
+                "name": "Makaron spaghetti",
+                "exp_date": "2027-03-20",
+                "quantity": 4,
+                "weight": 500
+        },
+        {
+                "id": 2,
+                "name": "Mleko UHT",
+                "exp_date": "2026-12-15",
+                "quantity": 6,
+                "weight": 250
+        },
+        {
+                "id": 3,
+                "name": "Kawa ziarnista",
+                "exp_date": "2027-10-28",
+                "quantity": 2,
+                "weight": 480
+        },
+        {
+                "name": "Ser żółty",
+                "exp_date": "2026-10-15",
+                "weight": 248.879,
+                "quantity": 0,
+                "id": 4
+        },
+        {
+                "name": "Herbata czarna",
+                "exp_date": "2028-07-22",
+                "weight": 80.0,
+                "quantity": 0,
+                "id": 5
+        },
+        {
+                "name": "Śmietana 30%",
+                "exp_date": "2026-12-28",
+                "weight": 300.0,
+                "quantity": 0,
+                "id": 6
+        },
+        {
+                "name": "Płatki owsiane",
+                "exp_date": "2028-07-19",
+                "weight": 400.0,
+                "quantity": 2,
+                "id": 7
+        },
+        {
+                "name": "Ryż",
+                "exp_date": "2027-11-18",
+                "weight": 380.0,
+                "quantity": 3,
+                "id": 8
+        }
 ]
