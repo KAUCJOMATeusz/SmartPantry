@@ -1,0 +1,79 @@
+[
+    {
+        "id": 1,
+        "name": "Makaron spaghetti",
+        "exp_date": "2027-03-20",
+        "quantity": 4,
+        "weight": 500
+    },
+    {
+        "id": 2,
+        "name": "Mleko UHT",
+        "exp_date": "2026-12-15",
+        "quantity": 6,
+        "weight": 250
+    },
+    {
+        "id": 3,
+        "name": "Kawa ziarnista",
+        "exp_date": "2027-10-28",
+        "quantity": 2,
+        "weight": 480
+    },
+    {
+        "name": "Ser żółty",
+        "exp_date": "2026-10-15",
+        "weight": 248.879,
+        "quantity": 0,
+        "id": 4
+    },
+    {
+        "name": "Herbata czarna",
+        "exp_date": "2028-07-22",
+        "weight": 80.0,
+        "quantity": 0,
+        "id": 5
+    },
+    {
+        "name": "Śmietana 30%",
+        "exp_date": "2026-12-28",
+        "weight": 300.0,
+        "quantity": 0,
+        "id": 6
+    },
+    {
+        "name": "Ser",
+        "exp_date": "2006.12.12",
+        "weight": 200.0,
+        "quantity": 3,
+        "id": 7
+    },
+    {
+        "name": "Durian",
+        "exp_date": "2000.12.12",
+        "weight": 400.0,
+        "quantity": 4,
+        "id": 8
+    },
+    {
+        "name": "ser",
+        "exp_date": "123",
+        "weight": 321.0,
+        "quantity": 3333,
+        "id": 9
+    },
+    {
+        "name": "miks",
+        "exp_date": "2003.10.10",
+        "weight": 1.0,
+        "quantity": 1,
+        "id": 10
+    },
+    {
+        "name": "salatka",
+        "exp_date": "2000.10.10",
+        "weight": 300.0,
+        "quantity": 4,
+        "id": 11
+    }
+]
