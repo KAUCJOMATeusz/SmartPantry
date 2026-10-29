@@ -181,9 +181,9 @@ Program uruchamia się bez błędów typu `FileNotFoundError`. W tle zostaje aut
 [Etap 2]  
 * **Patryk Cisek**
   * Odpowiedzialność za moduły: `src/storage`
-  * Zaimplementowane funkcjonalności: Stworzenie funckji zapisu do bazy danych i eksportu do csv
-  * Liczba wykonanych commitów: 3  
+  * Zaimplementowane funkcjonalności: Stworzenie funckji zapisu do bazy danych i eksportu do csv, utworzenie funkcji zapisu atomowego i tworzenia kopii zapasowej
+  * Liczba wykonanych commitów: 4  
 * **Mateusz Garwacki**
   * Odpowiedzialność za moduły: `src/main`
-  * Zaimplementowane funkcjonalności: Modyfikacja kodu i zaimplementowanie funkcji zapisu do bazy danych i eksportu do csv
-  * Liczba wykonanych commitów: 2
+  * Zaimplementowane funkcjonalności: Modyfikacja kodu i zaimplementowanie funkcji zapisu do bazy danych i eksportu do csv, modyfikacja kodu o działanie kopii i zapisu atomowego
+  * Liczba wykonanych commitów: 3
