@@ -1,4 +1,6 @@
-def display_items(items_list: list):
+from models import FoodProduct, PantryShelf
+
+def display_items(items_list: list[FoodProduct]):
     if not items_list:
         print("Spiżarnia jest pusta.")
         return
@@ -10,16 +12,10 @@ def display_items(items_list: list):
 
     for item in items_list:
         alert = "[!]" if item['quantity'] < 3 else ""
-        print(f"| {item['id']:<2} | {item['name']:<20} | {item['exp_date']:<13} | {item['weight']:<18} | {item['quantity']:}{alert:<8}|")
+        print(f"| {item.product_id:<2} | {item.name:<20} | {item.exp_date:<13} | {item.weight:<18} | {item.quantity:}{alert:<8}|")
     print("_" * 77)
 
-def add_item(items_list: list, new_item_data: dict):
-
-    if items_list:
-        new_id = max(item['id'] for item in items_list) + 1 if items_list else 1
-
-    new_item_data["id"] = new_id
-
-    items_list.append(new_item_data)
-    print(f"Pomyślnie dodano produkt: {new_item_data['name']} (przyznane ID: {new_id})")
+def add_item(shelf: PantryShelf, product: FoodProduct):
+    shelf.add_product(product)
+    print(f"Pomyślnie dodano produkt: {product.name} (przyznane ID: {product.product_id})")
     return True

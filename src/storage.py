@@ -2,6 +2,7 @@ import csv
 import json, os, tempfile, shutil
 from datetime import datetime
 from pathlib import Path
+from models import PantryShelf
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "data"
@@ -33,7 +34,7 @@ def create_backup(max_backups: int = 3):
         oldest.unlink(missing_ok=True)
     return BACKUP_PATH
 
-def atomic_save(items_list: list[dict]):
+def atomic_save(items_list: list[dict] | dict):
     create_backup()
     with tempfile.NamedTemporaryFile(
         mode="w",
@@ -77,8 +78,22 @@ def save_pantry(items_list: list[dict]):
     atomic_save(items_list)
 
 
-def export_shopping_list(items_list: list[dict]) -> int:
-    shortages = [i for i in items_list if i["quantity"] ==  0]
+def load_shelf() -> PantryShelf:
+    data = safe_load_pantry()
+    if isinstance(data, list):
+        data = {"shelf_id": 1, "products": data}
+    return PantryShelf.from_dict(data)
+
+
+def save_shelf(shelf: PantryShelf) -> None:
+    atomic_save(shelf.to_dict())
+
+
+
+
+
+def export_shopping_list(shelf: PantryShelf) -> int:
+    shortages = shelf.generate_shopping_list()
 
     if not shortages:
         return 0
@@ -90,6 +105,6 @@ def export_shopping_list(items_list: list[dict]) -> int:
         writer.writeheader()
 
         for item in shortages:
-            writer.writerow({"Lista zakupów": item["name"]})
+            writer.writerow({"Lista zakupów": item.name})
 
     return len(shortages)
