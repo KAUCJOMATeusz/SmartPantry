@@ -20,6 +20,10 @@ class FoodProduct:
             self._weight = weight
 
         @property
+        def quantity(self) -> int | float:
+            return self._quantity
+
+        @property
         def product_id(self) -> int:
             return self._product_id
 
@@ -35,6 +39,32 @@ class FoodProduct:
 
         def is_expired(self) -> bool:
             return self._expiry_days <= 0
+
+        def to_dict(self) -> dict[str, Any]:
+            return {
+                "product_id": self._product_id,
+                "name": self.name,
+                "quantity": self._quantity,
+                "unit": self._unit,
+                "expiry_days": self._expiry_days,
+                "exp_date": self._exp_date,
+                "weight": self._weight,
+            }
+
+        @classmethod
+        def from_dict(cls, data: dict[str, Any]) -> Self:
+            return cls(
+                product_id=data.get("product_id"),
+                name=data.get("name"),
+                quantity=data.get("quantity"),
+                unit=data.get("unit"),
+                expiry_days=data.get("expiry_days"),
+                exp_date=data.get("exp_date"),
+                weight=data.get("weight", 0.0),
+            )
+
+        def __str__(self) -> str:
+            return f"{self.name}\n{self._quantity} {self._unit} (Dni do ważności: {self._expiry_days})"
 
 
 class PantryShelf:
