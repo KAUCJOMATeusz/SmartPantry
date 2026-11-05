@@ -21,7 +21,7 @@ DEFAULT_STOCK = [
 ]
 def create_backup(max_backups: int = 3):
     if not DATA_PATH.exists():
-        return none
+        return None
     BACKUP_DIR.mkdir(parents=True, exist_ok=True)
     stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     BACKUP_PATH = BACKUP_DIR / f"pantry_stock_{stamp}.bak"
