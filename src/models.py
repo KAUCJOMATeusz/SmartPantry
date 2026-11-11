@@ -6,9 +6,7 @@ class FoodProduct:
 
         VALID_UNITS = {"g", "kg", "ml", "l", "szt"}
 
-        def __init__(self,product_id: int,name: str,quantity: int | float,unit: str,
-                expiry_days: int,exp_date: str | None = None,weight: float = 0.0
-        ) -> None:
+        def __init__(self,product_id: int,name: str,quantity: int | float,unit: str, expiry_days: int,exp_date: str | None = None,weight: float = 0.0) -> None:
             if not isinstance(name, str) or not name.strip():
                 raise ValueError("Nazwa produktu nie może być pusta.")
             self._product_id: int = int(product_id)
@@ -26,6 +24,18 @@ class FoodProduct:
         @property
         def product_id(self) -> int:
             return self._product_id
+
+        @property
+        def expiry_days(self) -> int:
+            return self._expiry_days
+
+        @property
+        def exp_date(self) -> str:
+            return self._exp_date if self._exp_date is not None else ""
+
+        @property
+        def weight(self) -> float:
+            return self._weight
 
         @property
         def unit(self) -> str:
@@ -53,18 +63,52 @@ class FoodProduct:
 
         @classmethod
         def from_dict(cls, data: dict[str, Any]) -> Self:
+
+            p_id = data.get("product_id")
+
+            if p_id is None:
+                p_id = data.get("id")
+
+            if p_id is None:
+                p_id = 0
+
+            raw_expiry = data.get("expiry_days")
+            exp_date_str = data.get("exp_date")
+
+            if exp_date_str and str(exp_date_str).strip() and str(exp_date_str).strip() != "-":
+                try:
+                    today = datetime.now().date()
+                    parsed_date = datetime.strptime(str(exp_date_str).strip(), "%Y-%m-%d").date()
+                    calculated_days = (parsed_date - today).days
+                except ValueError:
+                    calculated_days = int(str(raw_expiry)) if raw_expiry is not None else 0
+            elif raw_expiry is not None:
+                calculated_days = int(str(raw_expiry))
+            else:
+                calculated_days = 0
+
             return cls(
-                product_id=data.get("product_id"),
-                name=data.get("name"),
-                quantity=data.get("quantity"),
-                unit=data.get("unit"),
-                expiry_days=data.get("expiry_days"),
+                product_id=p_id,
+                name=str(data.get("name", "")),
+                quantity=data.get("quantity", 0),
+                unit=str(data.get("unit", "szt")),
+                expiry_days=calculated_days,
                 exp_date=data.get("exp_date"),
-                weight=data.get("weight", 0.0),
+                weight=float(data.get("weight", 0.0)),
             )
 
         def __str__(self) -> str:
             return f"{self.name}\n{self._quantity} {self._unit} (Dni do ważności: {self._expiry_days})"
+
+        def __lt__(self, other: "FoodProduct") -> bool:
+            if not isinstance(other, FoodProduct):
+                return False
+            return (self._expiry_days, self.name) < (other._expiry_days, other.name)
+
+        def __eq__(self, other: object) -> bool:
+            if not isinstance(other, FoodProduct):
+                return False
+            return self._product_id == other._product_id
 
 
 class PantryShelf:

@@ -56,7 +56,7 @@ def test_scenariusz_3_dzialanie_protokolu_porownan():
 
 
 def test_scenariusz_4_serializacja():
-    p1 = FoodProduct(1, "Kefir", 2, "ml", 4, "2026-11-10", 0.5)
+    p1 = FoodProduct(1, "Kefir", 2, "ml", 4, "2026-11-10", weight=0.5)
     p2 = FoodProduct(2, "Sól", 0, "kg", 365)
 
     oryginalna_polka = PantryShelf(shelf_id=12, products=[p1, p2])
