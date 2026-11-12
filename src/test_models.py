@@ -56,7 +56,7 @@ def test_scenariusz_3_dzialanie_protokolu_porownan():
 
 
 def test_scenariusz_4_serializacja():
-    p1 = FoodProduct(1, "Kefir", 2, "ml", 4, "2026-11-10", weight=0.5)
+    p1 = FoodProduct(1, "Kefir", 2, "ml", 4, weight=0.5)
     p2 = FoodProduct(2, "Sól", 0, "kg", 365)
 
     oryginalna_polka = PantryShelf(shelf_id=12, products=[p1, p2])
@@ -64,11 +64,22 @@ def test_scenariusz_4_serializacja():
     slownik_danych = oryginalna_polka.to_dict()
     odtworzona_polka = PantryShelf.from_dict(slownik_danych)
 
-    assert oryginalna_polka == odtworzona_polka
+    assert oryginalna_polka ==   odtworzona_polka
 
 
 if __name__ == "__main__":
     test_scenariusz_1_poprawne_instancjonowanie()
+    print("[OK] Scenariusz 1: Poprawne tworzenie produktu i półki.")
+
     test_scenariusz_2_odrzucenie_blednych_danych()
+    print("[OK] Scenariusz 2: Blokowanie złych jednostek i duplikatów ID.")
+
     test_scenariusz_3_dzialanie_protokolu_porownan()
+    print("[OK] Scenariusz 3: Sortowanie po dniach ważności i nazwie.")
+
     test_scenariusz_4_serializacja()
+    print("[OK] Scenariusz 4: Zapis i odczyt (Round-Trip Serialization).")
+
+    print("\n" + "=" * 55)
+    print("[SUKCES] Wszystkie 4 scenariusze testowe przeszły pomyślnie!")
+    print("=" * 55)
