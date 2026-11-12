@@ -1,7 +1,8 @@
+from abc import ABC, abstractmethod
 from typing import Any, Self
 from datetime import datetime
 
-class FoodProduct:
+class FoodProduct(ABC):
         __slots__ = ("_product_id", "name", "_quantity", "_unit", "_expiry_days", "_exp_date", "_weight")
 
         VALID_UNITS = {"g", "kg", "ml", "l", "szt"}
@@ -16,6 +17,25 @@ class FoodProduct:
             self._expiry_days = expiry_days
             self._exp_date = exp_date
             self._weight = weight
+
+            if int(expiry_days) == 0 and exp_date and exp_date.strip() and exp_date.strip() != "-":
+                try:
+                    today = datetime.now().date()
+                    parsed_date = datetime.strptime(str(exp_date).strip(), "%Y-%m-%d").date()
+                    self._expiry_days = (parsed_date - today).days
+                except ValueError:
+                    self._expiry_days = 0
+            else:
+                self._expiry_days = int(expiry_days)
+
+            self._exp_date = exp_date
+
+        def is_expired(self) -> bool:
+                return self._expiry_days <= 0
+
+        @abstractmethod
+        def get_display_name(self) -> str:
+            pass
 
         @property
         def quantity(self) -> int | float:
@@ -46,6 +66,10 @@ class FoodProduct:
             if value not in self.VALID_UNITS:
                 raise ValueError(f"Niedozwolona jednostka: '{value}'. Dozwolone to: {self.VALID_UNITS}")
             self._unit = value
+
+        @abstractmethod
+        def spoilage_urgency_score(self, days_left: int) -> int:
+            pass
 
         def is_expired(self) -> bool:
             return self._expiry_days <= 0

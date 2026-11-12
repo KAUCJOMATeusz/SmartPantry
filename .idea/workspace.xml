@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="159007ec-0492-4d74-ac58-503faa73c555" name="Changes" comment="poprawki">
-      <change afterPath="$PROJECT_DIR$/src/menager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SPRAWOZDANIE.md" beforeDir="false" afterPath="$PROJECT_DIR$/SPRAWOZDANIE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/test_models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +35,65 @@
     &quot;accountId&quot;: &quot;3a5a8c4d-db10-4369-bf5c-14380f0d4edc&quot;
   }
 }</component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0000000000000229" />
+      <entry key="S2" value="1.0008627108786194" />
+      <entry key="S5" value="1.114948863933312" />
+      <entry key="S10" value="1.6029097256983318" />
+      <entry key="S30" value="2.9960968250062177" />
+      <entry key="S60" value="3.793488535544537" />
+      <entry key="M2" value="4.615138278904834" />
+      <entry key="M5" value="9.85571869888844" />
+      <entry key="M10" value="20.0731298550911" />
+      <entry key="M15" value="27.396429813117184" />
+      <entry key="M30" value="38.81051703355454" />
+      <entry key="H1" value="46.827266250891235" />
+      <entry key="H2" value="51.60779457018364" />
+      <entry key="H4" value="54.222322145872745" />
+      <entry key="D1" value="56.52525986703949" />
+      <entry key="W1" value="56.93188489103556" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="9.550782756951776E-200" />
+      <entry key="MS500" value="1.570390984457438E-40" />
+      <entry key="S2" value="1.1194429055050321E-10" />
+      <entry key="S5" value="1.0461664283466946E-4" />
+      <entry key="S10" value="0.01022822774651941" />
+      <entry key="S30" value="0.2170702648945616" />
+      <entry key="S60" value="0.46643391512181903" />
+      <entry key="M2" value="0.7218443645154073" />
+      <entry key="M5" value="1.420474514361012" />
+      <entry key="M10" value="2.3722229167412885" />
+      <entry key="M15" value="2.9595410379160914" />
+      <entry key="M30" value="3.793904885966879" />
+      <entry key="H1" value="4.340289886292956" />
+      <entry key="H2" value="4.654432928898637" />
+      <entry key="H4" value="4.823074852869321" />
+      <entry key="D1" value="4.969918082246926" />
+      <entry key="W1" value="4.995687769301518" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="0.05872017182587573" />
+      <entry key="MS500" value="0.5672277424679927" />
+      <entry key="S2" value="0.8686114273908497" />
+      <entry key="S5" value="1.054810303781838" />
+      <entry key="S10" value="1.5697706582499515" />
+      <entry key="S30" value="3.177253437073496" />
+      <entry key="S60" value="4.232800138252416" />
+      <entry key="M2" value="5.3181626864304805" />
+      <entry key="M5" value="11.256471527754492" />
+      <entry key="M10" value="22.42476225757347" />
+      <entry key="M15" value="30.33748931082623" />
+      <entry key="M30" value="42.59167361788775" />
+      <entry key="H1" value="51.16000299654297" />
+      <entry key="H2" value="56.25810759676748" />
+      <entry key="H4" value="59.04324429991264" />
+      <entry key="D1" value="61.49480565363418" />
+      <entry key="W1" value="61.92751913578412" />
+    </decayedShown>
+  </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -80,7 +137,7 @@
       <recent name="C:\Users\Patryk\PycharmProjects\SmartPantry" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.test_models">
+  <component name="RunManager" selected="Python.main">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="SmartPantry" />
       <option name="ENV_FILES" value="" />
@@ -157,8 +214,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.test_models" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.test_models" />
         <item itemvalue="Python.storage" />
       </list>
     </recent_temporary>
