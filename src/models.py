@@ -135,48 +135,105 @@ class FoodProduct(ABC):
             return self._product_id == other._product_id
 
 
-class PantryShelf:
-    def __init__(self, shelf_id: int = 1, products: list[FoodProduct] | None = None) -> None:
-        self.shelf_id: int = shelf_id
-        self._products: list[FoodProduct] = []
-        for p in (products if products is not None else []):
-            self.add_product(p)
+class PerishableProduct(FoodProduct):
 
-    @property
-    def products(self) -> list[FoodProduct]:
-        return list(self._products)
+    def __init__(
+        self,
+        product_id: int,
+        name: str,
+        quantity: int | float,
+        unit: str,
+        expiry_days: int = 0,
+        exp_date: str | None = None,
+        weight: float = 0.0,
+        storage_temp: float = 4.0,
+    ) -> None:
+        super().__init__(product_id, name, quantity, unit, expiry_days, exp_date, weight)
+        if storage_temp > 4.0:
+            raise ValueError("Produkty świeże muszą być przechowywane w temperaturze <= 4.0°C.")
+        self.storage_temp: float = float(storage_temp)
 
-    def next_id(self) -> int:
-        return max((p.product_id for p in self._products), default=0) + 1
-
-    def add_product(self, product: FoodProduct) -> None:
-        if any(p.product_id == product.product_id for p in self._products):
-            raise ValueError(f"Produkt o ID {product.product_id} już istnieje.")
-        self._products.append(product)
-
-    def expired_products(self) -> list[FoodProduct]:
-        return [p for p in self._products if p.is_expired()]
-
-    def generate_shopping_list(self) -> list[FoodProduct]:
-        return [p for p in self._products if p.quantity == 0]
+    def spoilage_urgency_score(self, days_left: int) -> int:
+        if days_left <= 0:
+            return 100
+        return max(10, 100 - (days_left * 10))
 
     def to_dict(self) -> dict[str, Any]:
-        return {
-            "shelf_id": self.shelf_id,
-            "products": [p.to_dict() for p in self._products],
-        }
+        data = super().to_dict()
+        data["type"] = "perishable"
+        data["storage_temp"] = self.storage_temp
+        return data
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> Self:
-        restored = [FoodProduct.from_dict(raw) for raw in data.get("products", [])]
-        return cls(int(data.get("shelf_id", 1)), restored)
+        raw_id = data.get("product_id") if data.get("product_id") is not None else data.get("id", 0)
+        return cls(
+            product_id=int(str(raw_id)),
+            name=str(data.get("name", "")),
+            quantity=data.get("quantity", 0),
+            unit=str(data.get("unit", "szt")),
+            expiry_days=int(str(data.get("expiry_days", 0))),
+            exp_date=data.get("exp_date"),
+            weight=float(data.get("weight", 0.0)),
+            storage_temp=float(data.get("storage_temp", 4.0)),
+        )
 
-    def __eq__(self, other: object) -> bool:
-        if not isinstance(other, PantryShelf):
-            return False
-        return self.to_dict() == other.to_dict()
 
-    def __str__(self) -> str:
-        lines = [f"=== PÓŁKA #{self.shelf_id} ==="]
-        lines.extend(f"  * {p}" for p in self._products)
-        return "\n".join(lines)
+class DryProduct(FoodProduct):
+
+    def __init__(
+        self,
+        product_id: int,
+        name: str,
+        quantity: int | float,
+        unit: str,
+        expiry_days: int = 0,
+        exp_date: str | None = None,
+        weight: float = 0.0,
+        max_humidity: int = 60,
+    ) -> None:
+        super().__init__(product_id, name, quantity, unit, expiry_days, exp_date, weight)
+        if not (0 <= max_humidity <= 100):
+            raise ValueError("Wilgotność musi mieścić się w przedziale 0-100%.")
+        self.max_humidity: int = int(max_humidity)
+
+    def spoilage_urgency_score(self, days_left: int) -> int:
+        """Niska waga dni dla produktów sypkich."""
+        if days_left <= 0:
+            return 100
+        return max(1, 50 - (days_left // 5))
+
+    def to_dict(self) -> dict[str, Any]:
+        data = super().to_dict()
+        data["type"] = "dry"
+        data["max_humidity"] = self.max_humidity
+        return data
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> Self:
+        raw_id = data.get("product_id") if data.get("product_id") is not None else data.get("id", 0)
+        return cls(
+            product_id=int(str(raw_id)),
+            name=str(data.get("name", "")),
+            quantity=data.get("quantity", 0),
+            unit=str(data.get("unit", "szt")),
+            expiry_days=int(str(data.get("expiry_days", 0))),
+            exp_date=data.get("exp_date"),
+            weight=float(data.get("weight", 0.0)),
+            max_humidity=int(data.get("max_humidity", 60)),
+        )
+
+
+PRODUCT_REGISTRY: dict[str, type[FoodProduct]] = {
+    "perishable": PerishableProduct,
+    "dry": DryProduct,
+}
+
+
+def deserialize_product(payload: dict[str, Any]) -> FoodProduct:
+    """Fabryka odtwarzająca właściwą podklasę na podstawie dyskryminatora 'type'."""
+    product_type = payload.get("type", "dry")  # Domyślnie 'dry' dla wstecznej kompatybilności
+    target_cls = PRODUCT_REGISTRY.get(str(product_type))
+    if target_cls is None:
+        raise ValueError(f"Nieznany dyskryminator typu w bazie: {product_type!r}")
+    return target_cls.from_dict(payload)

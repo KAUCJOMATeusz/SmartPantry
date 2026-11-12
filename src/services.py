@@ -13,7 +13,7 @@ def display_items(items_list: list[FoodProduct]):
     for item in items_list:
         alert = "[!]" if item.quantity < 3 else ""
         p_id = str(item.product_id)
-        p_name = str(item.name)
+        p_name = item.get_display_name()
         p_date = str(item.exp_date)
         p_days = f"{item.expiry_days} dni" if item.expiry_days > 0 else "PRZETERMINOWANY"
         p_weight = item.weight
