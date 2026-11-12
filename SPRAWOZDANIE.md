@@ -250,8 +250,8 @@ Podaj jednostkę: x
 * **Patryk Cisek**
   * Odpowiedzialność za moduły: `src/models, src/test_models, menager.py`
   * Zaimplementowane funkcjonalności: Stworzenie klas: FoodProduct i PantryShelf, oraz utworzenie automatycznych testów jednostkowych, stworzenie klasy PantryStockMenager
-  * Liczba wykonanych commitów: 3  
+  * Liczba wykonanych commitów: 6  
 * **Mateusz Garwacki**
   * Odpowiedzialność za moduły: `src/models, src/test_menager.py`
   * Zaimplementowane funkcjonalności: Stworzenie i implementacja niezmiennika oraz metody genreującą stan magazynu i generującą brakujące pozycje, modyfikacja klasy FoodProduct na klasę abstrakcyjną, utworzenie autotestów `test_menager.py`
-  * Liczba wykonanych commitów: 2  
+  * Liczba wykonanych commitów: 5  
