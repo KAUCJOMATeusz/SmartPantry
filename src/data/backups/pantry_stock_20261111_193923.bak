@@ -1,0 +1,29 @@
+[
+    {
+        "product_id": 1,
+        "name": "Makaron spaghetti",
+        "quantity": 4,
+        "unit": "szt",
+        "expiry_days": 0,
+        "exp_date": "2027-03-20",
+        "weight": 500
+    },
+    {
+        "product_id": 2,
+        "name": "Mleko UHT",
+        "quantity": 6,
+        "unit": "szt",
+        "expiry_days": 0,
+        "exp_date": "2026-12-15",
+        "weight": 250
+    },
+    {
+        "product_id": 3,
+        "name": "Kawa ziarnista",
+        "quantity": 1,
+        "unit": "szt",
+        "expiry_days": 0,
+        "exp_date": "2027-10-28",
+        "weight": 400
+    }
+]
