@@ -1,110 +1,120 @@
-from storage import load_shelf, save_shelf, export_shopping_list
-from services import display_items, add_item
-from validators import get_non_empty_string, get_int_input, get_float_input
-from models import FoodProduct
+from datetime import datetime
+from pathlib import Path
+from menager import PantryStockManager
+from models import DryProduct, PerishableProduct
+from services import display_items
+from validators import get_float_input, get_int_input, get_non_empty_string
+
+BASE_DIR = Path(__file__).resolve().parent
+DATA_PATH = BASE_DIR / "data" / "pantry_stock.json"
+EXPORT_PATH = BASE_DIR / "exports" / "shopping_list.csv"
 
 
+def print_menu() -> None:
+    print("\n" + "_" * 55)
+    print("INTELIGENTNA SPIŻARNIA SMART-PANTRY (OOP)")
+    print("_" * 55)
+    print("1. Wyświetl zawartość spiżarni (według daty)")
+    print("2. Dodaj nowy produkt")
+    print("3. Sprawdzenie ilości produktów")
+    print("4. Eksportuj listę brakujących składników (csv)")
+    print("5. Wyświetl produkty przeterminowane")
+    print("6. Wyjście z programu")
+    print("_" * 55)
 
-def print_menu():
-    print("\n" + "_" * 50)
-    print("INTELIGENTNA SPIŻARNIA SMART-PANTRY")
-    print("_" * 50)
-    print("1.Wyświetl zawartość spiżarni(Posortowana wg daty)")
-    print("2.Dodaj nowy produkt")
-    print("3.Sprawdzenie ilości produktów")
-    print("4.Eksportuj liste brakujących składników(csv)")
-    print("5.Pokaż przeterminowane produkty")
-    print("6.Wyjście z programu")
 
-    print("_" * 50)
-
-def main():
-    shelf = load_shelf()
-
+def main() -> None:
+    manager = PantryStockManager(DATA_PATH)
+    manager.load_stock()
     running = True
+
     while running:
         print_menu()
-        choice = input("Wybierz opcje [1-5]")
-        match choice.strip():
+        choice = input("Wybierz opcję [1-7]: ").strip()
+
+        match choice:
             case "1":
-                all_products = shelf.products
-                display_items(all_products)
+                products = manager.products
+                products.sort()
+                display_items(products)
 
 
             case "2":
                 print("\n--- DODAJ NOWY PRODUKT ---")
-                name = get_non_empty_string("Podaj nazwę produktu: ")
-                exp_date = get_non_empty_string("Podaj datę ważności: ")
-                weight = get_float_input("Podaj masę w gramach: ")
-                quantity = get_int_input("Podaj ilość: ")
-                unit = get_non_empty_string("Podaj jednostkę: ")
+                print("Wybierz kategorię: [1] Świeży / Nabiał (chłodnia)  |  [2] Sypki / Trwały")
+                cat_choice = input("Kategoria [1-2]: ").strip()
 
+                name = get_non_empty_string("Podaj nazwę produktu: ")
+                while True:
+                    exp_date = get_non_empty_string("Podaj datę ważności (RRRR-MM-DD): ")
+                    try:
+                        datetime.strptime(exp_date.strip(), "%Y-%m-%d")
+                        break
+                    except ValueError:
+                        print("[!] Niepoprawny format daty! Użyj RRRR-MM-DD.")
+
+                weight = get_float_input("Podaj masę/wagę: ")
+                quantity = get_int_input("Podaj ilość: ")
+                unit = get_non_empty_string("Podaj jednostkę (g, kg, ml, l, szt): ")
 
                 try:
-                    new_id = shelf.next_id()
+                    new_id = manager.next_id()
+                    if cat_choice == "1":
+                        temp = get_float_input("Podaj temperaturę przechowywania (°C, max 4.0): ")
+                        product = PerishableProduct(
+                            product_id=new_id,
+                            name=name,
+                            quantity=quantity,
+                            unit=unit,
+                            exp_date=exp_date,
+                            weight=weight,
+                            storage_temp=temp,
+                        )
+                    elif cat_choice == "2":
+                        humidity = get_int_input("Podaj max wilgotność (0-100%): ")
+                        product = DryProduct(
+                            product_id=new_id,
+                            name=name,
+                            quantity=quantity,
+                            unit=unit,
+                            exp_date=exp_date,
+                            weight=weight,
+                            max_humidity=humidity,
+                        )
+                    else:
+                        print("[!] Nieznana kategoria produktu.")
+                        continue
 
-                    new_product = FoodProduct(
-                        product_id=new_id,
-                        name=name,
-                        exp_date=exp_date,
-                        weight=weight,
-                        quantity=quantity,
-                        unit=unit,
-                        expiry_days=0
-                    )
-
-                    if add_item(shelf, new_product):
-                        save_shelf(shelf)
-                        print("\n[SUKCES] Pomyślnie dodano i zapisano produkt!\n")
+                    manager.add_product(product)
+                    manager.save_stock()
+                    print(f"\n[SUKCES] Dodano produkt '{product.name}' (ID: {product.product_id})!\n")
 
                 except ValueError as e:
-                    print(f"\n[BŁĄD] Nie można dodać produktu: {e}\n")
+                    print(f"\n[BŁĄD NIEZMIENNIKA] Nie można dodać produktu: {e}\n")
 
             case "3":
-
-                print("\n--- SPRAWDZANIE ILOŚCI PRODUKTÓW ---")
-                max_qty = get_int_input("Pokaż produkty, których ilość jest mniejsza od ", min_value=0)
-
-                filtered_list = [item for item in shelf.products if item.quantity < max_qty]
-                low_qty = [item for item in shelf.products if item.quantity == 0]
-
-                print(f"\nProdukty w ilości mniejszej od {max_qty}:")
-                display_items(filtered_list)
-
-
-                if low_qty:
-                    print("\nUwaga! Następujące produkty się skończyły (ilość = 0):")
-                    display_items(low_qty)
-                else:
-                    print("Brak produktów z wyczerpanym zapasem.")
-
+                max_qty = get_int_input("Pokaż produkty, których ilość jest mniejsza od: ", min_value=0)
+                filtered = [p for p in manager.products if p.quantity < max_qty]
+                display_items(filtered)
 
             case "4":
-                print("\n--- EKSPORT BRAKUJĄCYCH SKŁADNIKÓW DO CSV ---")
-
-                export = export_shopping_list(shelf)
-
-                if export:
-                    print("[SUKCES] Wyeksportowano brakujące produkty do listy zakupów ( exports/shopping_list.csv )")
+                count = manager.export_shopping_list(EXPORT_PATH)
+                if count > 0:
+                    print(f"[SUKCES] Wyeksportowano {count} brakujących produktów do {EXPORT_PATH}")
                 else:
-                    print("Wszystko jest na stanie, brak brakujących produktów (eksport pominięty)")
-
+                    print("Wszystko jest na stanie, brak brakujących produktów.")
 
             case "5":
                 print("\n--- PRODUKTY PRZETERMINOWANE ---")
-                expired = shelf.expired_products()
-                display_items(expired)
-
+                display_items(manager.get_expired_products())
 
             case "6" | "q" | "exit":
                 print("Zamykanie programu...")
                 running = False
+
             case _:
-                print("Nieznana opcja wybierz 1-5")
-                running = True
+                print("Nieznana opcja, wybierz 1-7.")
 
 
 if __name__ == "__main__":
     main()
-
-

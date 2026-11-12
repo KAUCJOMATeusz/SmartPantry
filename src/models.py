@@ -178,6 +178,10 @@ class PerishableProduct(FoodProduct):
             storage_temp=float(data.get("storage_temp", 4.0)),
         )
 
+    def get_display_name(self) -> str:
+        if self.is_expired():
+            return f"{self.name} [Produkt świeży do wyrzucenia]"
+        return self.name
 
 class DryProduct(FoodProduct):
 
@@ -222,6 +226,11 @@ class DryProduct(FoodProduct):
             weight=float(data.get("weight", 0.0)),
             max_humidity=int(data.get("max_humidity", 60)),
         )
+
+    def get_display_name(self) -> str:
+        if self.is_expired():
+            return f"{self.name} [Produkt suchy do wyrzucenia]"
+        return self.name
 
 
 PRODUCT_REGISTRY: dict[str, type[FoodProduct]] = {

@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="159007ec-0492-4d74-ac58-503faa73c555" name="Changes" comment="menager.py" />
+    <list default="true" id="159007ec-0492-4d74-ac58-503faa73c555" name="Changes" comment="Podklasy PerishableProduct i DryProduct">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/pantry_stock.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/pantry_stock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -75,7 +81,7 @@
       <recent name="C:\Users\Patryk\PycharmProjects\SmartPantry" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.test_models">
+  <component name="RunManager" selected="Python.main">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="SmartPantry" />
       <option name="ENV_FILES" value="" />
@@ -152,8 +158,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.test_models" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.test_models" />
         <item itemvalue="Python.storage" />
       </list>
     </recent_temporary>
@@ -352,7 +358,15 @@
       <option name="project" value="LOCAL" />
       <updated>1794505300844</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Podklasy PerishableProduct i DryProduct">
+      <option name="closed" value="true" />
+      <created>1794505619137</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1794505619137</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -406,7 +420,8 @@
     <MESSAGE value="test models" />
     <MESSAGE value="poprawki" />
     <MESSAGE value="menager.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="menager.py" />
+    <MESSAGE value="Podklasy PerishableProduct i DryProduct" />
+    <option name="LAST_COMMIT_MESSAGE" value="Podklasy PerishableProduct i DryProduct" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/SmartPantry$storage.coverage" NAME="storage Coverage Results" MODIFIED="1792930611011" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />

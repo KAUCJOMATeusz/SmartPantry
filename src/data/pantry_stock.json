@@ -1,59 +1,90 @@
-{
-    "shelf_id": 1,
-    "products": [
-        {
-            "product_id": 1,
-            "name": "Makaron spaghetti",
-            "quantity": 4,
-            "unit": "szt",
-            "expiry_days": 129,
-            "exp_date": "2027-03-20",
-            "weight": 500.0
-        },
-        {
-            "product_id": 2,
-            "name": "Mleko UHT",
-            "quantity": 6,
-            "unit": "szt",
-            "expiry_days": 34,
-            "exp_date": "2026-12-15",
-            "weight": 250.0
-        },
-        {
-            "product_id": 3,
-            "name": "Kawa ziarnista",
-            "quantity": 1,
-            "unit": "szt",
-            "expiry_days": 351,
-            "exp_date": "2027-10-28",
-            "weight": 400.0
-        },
-        {
-            "product_id": 4,
-            "name": "Sok jabłkowy",
-            "quantity": 10,
-            "unit": "l",
-            "expiry_days": 456,
-            "exp_date": "2028-02-10",
-            "weight": 500.0
-        },
-        {
-            "product_id": 5,
-            "name": "Chleb",
-            "quantity": 2,
-            "unit": "szt",
-            "expiry_days": 9,
-            "exp_date": "2026-11-20",
-            "weight": 500.0
-        },
-        {
-            "product_id": 6,
-            "name": "pomarańcze",
-            "quantity": 3,
-            "unit": "szt",
-            "expiry_days": 0,
-            "exp_date": "2026-10-05",
-            "weight": 287.0
-        }
-    ]
-}
+[
+    {
+        "product_id": 1,
+        "name": "Makaron spaghetti",
+        "quantity": 4,
+        "unit": "szt",
+        "expiry_days": 129,
+        "exp_date": "2027-03-20",
+        "weight": 500.0,
+        "type": "dry",
+        "max_humidity": 60
+    },
+    {
+        "product_id": 2,
+        "name": "Mleko UHT",
+        "quantity": 6,
+        "unit": "szt",
+        "expiry_days": 34,
+        "exp_date": "2026-12-15",
+        "weight": 250.0,
+        "type": "perishable",
+        "max_humidity": 60
+    },
+    {
+        "product_id": 3,
+        "name": "Kawa ziarnista",
+        "quantity": 1,
+        "unit": "szt",
+        "expiry_days": 351,
+        "exp_date": "2027-10-28",
+        "weight": 400.0,
+        "type": "dry",
+        "max_humidity": 60
+    },
+    {
+        "product_id": 4,
+        "name": "Sok jabłkowy",
+        "quantity": 10,
+        "unit": "l",
+        "expiry_days": 456,
+        "exp_date": "2028-02-10",
+        "weight": 500.0,
+        "type": "perishable",
+        "max_humidity": 60
+    },
+    {
+        "product_id": 5,
+        "name": "Chleb",
+        "quantity": 2,
+        "unit": "szt",
+        "expiry_days": 9,
+        "exp_date": "2026-11-20",
+        "weight": 500.0,
+        "type": "dry",
+        "max_humidity": 60
+    },
+    {
+        "product_id": 6,
+        "name": "pomarańcze",
+        "quantity": 3,
+        "unit": "szt",
+        "expiry_days": -38,
+        "exp_date": "2026-10-05",
+        "weight": 287.0,
+        "type": "dry",
+        "max_humidity": 60
+    },
+    {
+        "product_id": 7,
+        "name": "Serek wiejski",
+        "quantity": 3,
+        "unit": "szt",
+        "expiry_days": 18,
+        "exp_date": "2026-11-30",
+        "weight": 150.0,
+        "type": "perishable",
+        "storage_temp": 3.0
+    },
+    {
+        "product_id": 8,
+        "name": "jajka",
+        "quantity": 1,
+        "unit": "szt",
+        "expiry_days": -2,
+        "exp_date": "2026-11-10",
+        "weight": 600.0,
+        "type": "perishable",
+        "storage_temp": 2.0
+    }
+]
