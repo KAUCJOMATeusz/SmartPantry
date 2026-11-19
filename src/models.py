@@ -240,8 +240,7 @@ PRODUCT_REGISTRY: dict[str, type[FoodProduct]] = {
 
 
 def deserialize_product(payload: dict[str, Any]) -> FoodProduct:
-    """Fabryka odtwarzająca właściwą podklasę na podstawie dyskryminatora 'type'."""
-    product_type = payload.get("type", "dry")  # Domyślnie 'dry' dla wstecznej kompatybilności
+    product_type = payload.get("type", "dry")
     target_cls = PRODUCT_REGISTRY.get(str(product_type))
     if target_cls is None:
         raise ValueError(f"Nieznany dyskryminator typu w bazie: {product_type!r}")
