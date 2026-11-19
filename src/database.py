@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS food_products (
     name TEXT NOT NULL,
     quantity REAL NOT NULL CHECK (quantity > 0.0),
     unit TEXT NOT NULL CHECK (unit IN ('g', 'kg', 'ml', 'l', 'szt')),
-    expiry_date TEXT NOT NULL,
+    exp_date TEXT NOT NULL,
     FOREIGN KEY (shelf_id) REFERENCES pantry_shelves(shelf_id) ON DELETE CASCADE
 );
 """
@@ -46,7 +46,7 @@ class PantryRepository:
                 "INSERT INTO pantry_shelves (shelf_name, location) VALUES (?, ?);",
                 (shelf_name, location)
             )
-            shelf_id: int = cur.lastrowid
+            shelf_id: int = int(cur.lastrowid or 0)
 
             payload = [
                 (
@@ -54,14 +54,14 @@ class PantryRepository:
                     p["name"],
                     p["quantity"],
                     p["unit"],
-                    p["expiry_date"]
+                    p["exp_date"]
                 )
                 for p in products
             ]
 
             self._conn.executemany(
                 """
-                INSERT INTO food_products (shelf_id, name, quantity, unit, expiry_date)
+                INSERT INTO food_products (shelf_id, name, quantity, unit, exp_date)
                 VALUES (?, ?, ?, ?, ?);
                 """,
                 payload
