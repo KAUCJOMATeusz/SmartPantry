@@ -4,15 +4,18 @@ from menager import PantryStockManager
 from models import DryProduct, PerishableProduct
 from services import display_items
 from validators import get_float_input, get_int_input, get_non_empty_string
+from database import get_connection
+from migrate import migrate_from_json
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_PATH = BASE_DIR / "data" / "pantry_stock.json"
+DB_PATH = BASE_DIR / "data" / "smartpantry.db"
 EXPORT_PATH = BASE_DIR / "exports" / "shopping_list.csv"
 
 
 def print_menu() -> None:
     print("\n" + "_" * 55)
-    print("INTELIGENTNA SPIŻARNIA SMART-PANTRY (OOP)")
+    print("INTELIGENTNA SPIŻARNIA SMART-PANTRY")
     print("_" * 55)
     print("1. Wyświetl zawartość spiżarni (według daty)")
     print("2. Dodaj nowy produkt")
@@ -24,8 +27,9 @@ def print_menu() -> None:
 
 
 def main() -> None:
-    manager = PantryStockManager(DATA_PATH)
-    manager.load_stock()
+    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+    conn = get_connection(str(DB_PATH))
+    manager = PantryStockManager(conn)
     running = True
 
     while running:
@@ -86,7 +90,6 @@ def main() -> None:
                         continue
 
                     manager.add_product(product)
-                    manager.save_stock()
                     print(f"\n[SUKCES] Dodano produkt '{product.name}' (ID: {product.product_id})!\n")
 
                 except ValueError as e:

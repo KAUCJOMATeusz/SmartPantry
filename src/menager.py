@@ -1,59 +1,58 @@
 import csv
-import json
+import sqlite3
 from pathlib import Path
+from database import PantryRepository
 from models import FoodProduct, deserialize_product
+
 
 class PantryStockManager:
 
-    def __init__(self, data_path: Path) -> None:
-        self.data_path: Path = data_path
-        self._products: list[FoodProduct] = []
+    def __init__(self, conn: sqlite3.Connection, default_shelf_id: int = 1) -> None:
+        self._conn = conn
+        self._repo = PantryRepository(conn)
+        self.default_shelf_id = default_shelf_id
 
     @property
     def products(self) -> list[FoodProduct]:
-        return list(self._products)
+        rows = self._conn.execute("SELECT * FROM food_products;").fetchall()
+        return [deserialize_product(dict(r)) for r in rows]
 
     def next_id(self) -> int:
-        return max((p.product_id for p in self._products), default=0) + 1
+        row = self._conn.execute("SELECT MAX(product_id) AS max_id FROM food_products;").fetchone()
+        max_id = dict(row)["max_id"] if row else None
+        return (max_id or 0) + 1
 
     def add_product(self, product: FoodProduct) -> None:
         if not isinstance(product, FoodProduct):
             raise TypeError("Spiżarnia przyjmuje wyłącznie obiekty dziedziczące po FoodProduct.")
-        if any(p.product_id == product.product_id for p in self._products):
-            raise ValueError(f"Produkt o ID {product.product_id} już istnieje.")
-        self._products.append(product)
+
+        shelves = self._repo.get_all_shelves()
+        if not shelves:
+            shelf_id = self._repo.save_shelf_with_products("Spiżarnia Główna", "Kuchnia", [])
+        else:
+            shelf_id = dict(shelves[0])["shelf_id"]
+
+        with self._conn:
+            self._conn.execute(
+                """
+                INSERT INTO food_products (shelf_id, name, quantity, unit, exp_date)
+                VALUES (?, ?, ?, ?, ?);
+                """,
+                (shelf_id, product.name, product.quantity, product.unit, product.exp_date),
+            )
 
     def get_priority_list(self) -> list[FoodProduct]:
         return sorted(
-            self._products,
+            self.products,
             key=lambda p: p.spoilage_urgency_score(p.expiry_days),
             reverse=True,
         )
 
     def get_expired_products(self) -> list[FoodProduct]:
-        return [p for p in self._products if p.is_expired()]
-
-    def save_stock(self) -> None:
-        self.data_path.parent.mkdir(parents=True, exist_ok=True)
-        payload = [p.to_dict() for p in self._products]
-        with open(self.data_path, mode="w", encoding="utf-8") as f:
-            json.dump(payload, f, indent=4, ensure_ascii=False)
-
-    def load_stock(self) -> None:
-        if not self.data_path.exists():
-            self._products = []
-            return
-        try:
-            with open(self.data_path, mode="r", encoding="utf-8") as f:
-                raw_data = json.load(f)
-                # Obsługa zarówno listy słowników, jak i starego formatu ze słownikiem PantryShelf
-                items_list = raw_data.get("products", []) if isinstance(raw_data, dict) else raw_data
-                self._products = [deserialize_product(row) for row in items_list]
-        except (json.JSONDecodeError, ValueError):
-            self._products = []
+        return [p for p in self.products if p.is_expired()]
 
     def export_shopping_list(self, csv_path: Path) -> int:
-        missing = [p for p in self._products if p.quantity == 0]
+        missing = [p for p in self.products if p.quantity == 0]
         if not missing:
             return 0
         csv_path.parent.mkdir(parents=True, exist_ok=True)
@@ -63,5 +62,3 @@ class PantryStockManager:
             for p in missing:
                 writer.writerow([p.product_id, p.name, p.unit, p.exp_date])
         return len(missing)
-
-
