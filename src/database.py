@@ -119,3 +119,24 @@ class PantryRepository:
         rows = self._conn.execute(sql, (max_date,)).fetchall()
         return [dict(r) for r in rows]
 
+    def transaction_rollback(self, product_id: int, target_shelf_id: int, new_quantity: float) -> None:
+        with self._conn:
+            shelf_check = self._conn.execute(
+                "SELECT COUNT(*) FROM pantry_shelves WHERE shelf_id = ?;",
+                (target_shelf_id,)
+            ).fetchone()[0]
+
+            if shelf_check == 0:
+                raise ValueError("Docelowa półka nie istnieje w bazie.")
+
+            cursor = self._conn.execute(
+                """
+                UPDATE food_products 
+                SET shelf_id = ?, quantity = ? 
+                WHERE product_id = ?;
+                """,
+                (target_shelf_id, new_quantity, product_id)
+            )
+
+            if cursor.rowcount == 0:
+                raise ValueError("Nie znaleziono produktu o podanym ID.")
