@@ -22,7 +22,7 @@ def print_menu() -> None:
     print("3. Sprawdzenie ilości produktów")
     print("4. Eksportuj listę brakujących składników (csv)")
     print("5. Wyświetl produkty przeterminowane")
-    print("6. Wyjście z programu")
+    print("6. Wyjście z programu ['6' 'q' 'exit']")
     print("_" * 55)
 
 
@@ -30,11 +30,15 @@ def main() -> None:
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
     conn = get_connection(str(DB_PATH))
     manager = PantryStockManager(conn)
+    migrated_count = migrate_from_json(conn, DATA_PATH)
+    if migrated_count > 0:
+        print(f"[INFO] Zmigrowano {migrated_count} produktów z pliku JSON do bazy danych.")
+
     running = True
 
     while running:
         print_menu()
-        choice = input("Wybierz opcję [1-7]: ").strip()
+        choice = input("Wybierz opcję [1-6]: ").strip()
 
         match choice:
             case "1":
