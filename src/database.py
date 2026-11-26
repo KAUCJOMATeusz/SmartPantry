@@ -127,7 +127,7 @@ class PantryRepository:
             SELECT 
                 s.shelf_id,
                 s.shelf_name,
-                COUNT(p.product_id) AS products_count,
+                    COUNT(p.product_id) AS products_count,
                 COALESCE(SUM(p.quantity), 0.0) AS total_quantity
             FROM pantry_shelves AS s
             LEFT JOIN food_products AS p ON s.shelf_id = p.shelf_id
@@ -140,19 +140,4 @@ class PantryRepository:
 
 
 
-    def get_expired_summary_report(self, max_date: str) -> List[Dict[str, Any]]:
-        sql = """
-            SELECT 
-                COALESCE(s.shelf_name, 'Brak półki') AS shelf_name,
-                COUNT(p.product_id) AS expired_count,
-                COALESCE(SUM(p.quantity), 0.0) AS expired_quantity
-            FROM food_products AS p
-            LEFT JOIN pantry_shelves AS s ON p.shelf_id = s.shelf_id
-            WHERE p.exp_date <= ?
-            GROUP BY s.shelf_id, s.shelf_name
-            HAVING expired_count > 0
-            ORDER BY expired_count DESC;
-        """
-        rows = self._conn.execute(sql, (max_date,)).fetchall()
-        return [dict(r) for r in rows]
 

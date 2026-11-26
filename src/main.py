@@ -22,7 +22,10 @@ def print_menu() -> None:
     print("3. Sprawdzenie ilości produktów")
     print("4. Eksportuj listę brakujących składników (csv)")
     print("5. Wyświetl produkty przeterminowane")
-    print("6. Wyjście z programu ['6' 'q' 'exit']")
+    print("6. Wyszukaj produkty (filtr wielokryterialny)")
+    print("7. Raport obłożenia półek")
+    print("8. Przenieś produkty między półkami")
+    print("9. Wyjście z programu ['9' 'q' 'exit']")
     print("_" * 55)
 
 
@@ -38,7 +41,7 @@ def main() -> None:
 
     while running:
         print_menu()
-        choice = input("Wybierz opcję [1-6]: ").strip()
+        choice = input("Wybierz opcję [1-9]: ").strip()
 
         match choice:
             case "1":
@@ -115,7 +118,54 @@ def main() -> None:
                 print("\n--- PRODUKTY PRZETERMINOWANE ---")
                 display_items(manager.get_expired_products())
 
-            case "6" | "q" | "exit":
+            case "6":
+                print("\n--- WYSZUKIWANIE WIELOPARAMETROWE ---")
+                print("(Jeśli chcesz aby dany parametr był dowolny naciśnij przy nim enter")
+                phrase = input("Nazwa: ").strip()
+                unit_in = input("Jednostka [g, kg, ml, l, szt]: ").strip() or None
+                max_date = input("Data ważności do RRRR-MM-DD: ").strip() or None
+                sort_col = input("Sortuj po [product_id, name, quantity, weight] (domyślnie: exp_date): ").strip() or "exp_date"
+
+                try:
+                    results = manager._repo.search_products(
+                        phrase=phrase,
+                        unit=unit_in,
+                        max_exp_date=max_date,
+                        sort_by=sort_col,
+                    )
+                    if not results:
+                        print("Brak produktów spełniających kryteria.")
+                    for r in results:
+                        print(
+                            f"[{r['product_id']}] {r['name']} | {r['quantity']} {r['unit']} | ważność: {r['exp_date']}")
+                except ValueError as e:
+                    print(f"[BŁĄD WALIDACJI] {e}")
+
+            case "7":
+                print("\n--- RAPORT OBŁOŻENIA PÓŁEK ---")
+                min_qty = get_float_input("Minimalna łączna ilość na półce (0 = wszystkie): ", min_value=0.0)
+                report = manager._repo.get_shelves_occupancy_report(min_total_quantity=min_qty)
+                if not report:
+                    print("Brak półek spełniających kryterium.")
+                for row in report:
+                    print(
+                        f"Półka #{row['shelf_id']} '{row['shelf_name']}': "
+                        f"{row['products_count']} prod. | łączna ilość: {row['total_quantity']}"
+                    )
+
+            case "8":
+                print("\n--- PRZENIEŚ PRODUKT NA INNĄ PÓŁKĘ ---")
+                prod_id = get_int_input("Podaj ID produktu: ", min_value=1)
+                target_id = get_int_input("Podaj ID półki docelowej: ", min_value=1)
+                qty = get_float_input("Podaj ilość do przeniesienia: ", min_value=0.01)
+                try:
+                    manager._repo.transaction_rollback(prod_id, target_id, qty)
+                    print("[SUKCES] Produkt przeniesiony atomowo.")
+                except Exception as e:
+                    print(f"[ROLLBACK / BŁĄD] Operacja wycofana: {e}")
+
+
+            case "9" | "q" | "exit":
                 print("Zamykanie programu...")
                 running = False
 
