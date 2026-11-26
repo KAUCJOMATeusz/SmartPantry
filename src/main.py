@@ -118,7 +118,12 @@ def main() -> None:
 
             case "5":
                 print("\n--- PRODUKTY PRZETERMINOWANE ---")
-                display_items(manager.get_expired_products())
+                today = datetime.now().strftime("%Y-%m-%d")
+                expired = manager._repo.get_expired_products(today)
+                if not expired:
+                    print("Brak przeterminowanych produktów.")
+                for r in expired:
+                    print(f"[{r['product_id']}] {r['name']} | {r['quantity']} {r['unit']} | wygasło: {r['exp_date']}")
 
             case "6":
                 print("\n--- WYSZUKIWANIE WIELOPARAMETROWE ---")

@@ -162,3 +162,10 @@ class PantryRepository:
 
             if cursor.rowcount == 0:
                 raise ValueError("Nie znaleziono produktu o podanym ID.")
+
+    def get_expired_products(self, today_date: str) -> list[dict]:
+        rows = self._conn.execute(
+            "SELECT * FROM food_products WHERE exp_date < ? ORDER BY exp_date ASC;",
+             (today_date,),
+        ).fetchall()
+        return [dict(r) for r in rows]

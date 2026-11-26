@@ -61,9 +61,6 @@ class PantryStockManager:
             reverse=True,
         )
 
-    def get_expired_products(self) -> list[FoodProduct]:
-        return [p for p in self.products if p.is_expired()]
-
     def export_shopping_list(self, csv_path: Path) -> int:
         missing = [p for p in self.products if p.quantity == 0]
 
