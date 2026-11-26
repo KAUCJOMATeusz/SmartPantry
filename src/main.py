@@ -1,4 +1,5 @@
 from datetime import datetime
+from fileinput import close
 from pathlib import Path
 from menager import PantryStockManager
 from models import DryProduct, PerishableProduct
@@ -25,7 +26,8 @@ def print_menu() -> None:
     print("6. Wyszukaj produkty (filtr wielokryterialny)")
     print("7. Raport obłożenia półek")
     print("8. Przenieś produkty między półkami")
-    print("9. Wyjście z programu ['9' 'q' 'exit']")
+    print("9. Dodawanie półki")
+    print("10. Wyjście z programu ['9' 'q' 'exit']")
     print("_" * 55)
 
 
@@ -160,14 +162,21 @@ def main() -> None:
                 qty = get_float_input("Podaj ilość do przeniesienia: ", min_value=0.01)
                 try:
                     manager._repo.transaction_rollback(prod_id, target_id, qty)
-                    print("[SUKCES] Produkt przeniesiony atomowo.")
+                    print("[SUKCES] Produkt przeniesiony.")
                 except Exception as e:
                     print(f"[ROLLBACK / BŁĄD] Operacja wycofana: {e}")
 
 
-            case "9" | "q" | "exit":
-                print("Zamykanie programu...")
-                running = False
+            case "9":
+                print("\n--- DODAJ NOWĄ PÓŁKĘ ---")
+                s_name = get_non_empty_string("Nazwa półki: ")
+                s_loc = get_non_empty_string("Lokalizacja: ")
+                new_shelf_id = manager._repo.save_shelf_with_products(s_name, s_loc, [])
+                print(f"[SUKCES] Utworzono półkę '{s_name}' o ID: {new_shelf_id}")\
+
+            case "10" | "q" | "exit":
+
+                conn.close()
 
             case _:
                 print("Nieznana opcja, wybierz 1-7.")
