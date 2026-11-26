@@ -5,11 +5,13 @@ DB_PATH = "data/smartpantry.db"
 
 ALLOWED_PRODUCT_SORT_COLS = {"product_id", "name", "quantity", "exp_date", "weight"}
 
+
 def get_connection(db_path: str = DB_PATH) -> sqlite3.Connection:
     conn = sqlite3.connect(db_path)
     conn.execute("PRAGMA foreign_keys = ON;")
     conn.row_factory = sqlite3.Row
     return conn
+
 
 DDL_SHELVES = """
 CREATE TABLE IF NOT EXISTS pantry_shelves (
@@ -36,6 +38,8 @@ CREATE TABLE IF NOT EXISTS food_products (
 """
 
 class PantryRepository:
+    ALLOWED_SORT_COLS = {"product_id", "name", "quantity", "unit", "exp_date"}
+
     def __init__(self, conn: sqlite3.Connection):
         self._conn = conn
         self._create_tables()
@@ -117,4 +121,38 @@ class PantryRepository:
         rows = self._conn.execute(sql, params).fetchall()
         return [dict(r) for r in rows]
 
+
+    def get_shelves_occupancy_report(self, min_total_quantity: float = 0.0) -> List[Dict[str, Any]]:
+        sql = """
+            SELECT 
+                s.shelf_id,
+                s.shelf_name,
+                COUNT(p.product_id) AS products_count,
+                COALESCE(SUM(p.quantity), 0.0) AS total_quantity
+            FROM pantry_shelves AS s
+            LEFT JOIN food_products AS p ON s.shelf_id = p.shelf_id
+            GROUP BY s.shelf_id, s.shelf_name
+            HAVING total_quantity >= ?
+            ORDER BY total_quantity DESC;
+        """
+        rows = self._conn.execute(sql, (min_total_quantity,)).fetchall()
+        return [dict(r) for r in rows]
+
+
+
+    def get_expired_summary_report(self, max_date: str) -> List[Dict[str, Any]]:
+        sql = """
+            SELECT 
+                COALESCE(s.shelf_name, 'Brak półki') AS shelf_name,
+                COUNT(p.product_id) AS expired_count,
+                COALESCE(SUM(p.quantity), 0.0) AS expired_quantity
+            FROM food_products AS p
+            LEFT JOIN pantry_shelves AS s ON p.shelf_id = s.shelf_id
+            WHERE p.exp_date <= ?
+            GROUP BY s.shelf_id, s.shelf_name
+            HAVING expired_count > 0
+            ORDER BY expired_count DESC;
+        """
+        rows = self._conn.execute(sql, (max_date,)).fetchall()
+        return [dict(r) for r in rows]
 
