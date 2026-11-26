@@ -35,10 +35,23 @@ class PantryStockManager:
         with self._conn:
             self._conn.execute(
                 """
-                INSERT INTO food_products (shelf_id, name, quantity, unit, exp_date)
-                VALUES (?, ?, ?, ?, ?);
+                INSERT INTO food_products (
+                    shelf_id, name, quantity, unit, exp_date, 
+                    type, weight, storage_temp, max_humidity
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
                 """,
-                (shelf_id, product.name, product.quantity, product.unit, product.exp_date),
+                (
+                    shelf_id,
+                    product.name,
+                    product.quantity,
+                    product.unit,
+                    product.exp_date,
+                    product.type,
+                    product.weight,
+                    product.storage_temp,
+                    product.max_humidity,
+                ),
             )
 
     def get_priority_list(self) -> list[FoodProduct]:
@@ -53,12 +66,11 @@ class PantryStockManager:
 
     def export_shopping_list(self, csv_path: Path) -> int:
         missing = [p for p in self.products if p.quantity == 0]
-        if not missing:
-            return 0
+
         csv_path.parent.mkdir(parents=True, exist_ok=True)
         with open(csv_path, mode="w", newline="", encoding="utf-8") as f:
             writer = csv.writer(f)
-            writer.writerow(["ID", "Nazwa", "Jednostka", "Data ważności"])
+            writer.writerow(["Lista brakujących produktów"])
             for p in missing:
-                writer.writerow([p.product_id, p.name, p.unit, p.exp_date])
+                writer.writerow([p.name])
         return len(missing)

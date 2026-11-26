@@ -30,8 +30,6 @@ class FoodProduct(ABC):
 
             self._exp_date = exp_date
 
-        def is_expired(self) -> bool:
-                return self._expiry_days <= 0
 
         @abstractmethod
         def get_display_name(self) -> str:

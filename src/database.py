@@ -1,8 +1,9 @@
 import sqlite3
 from typing import List, Dict, Any
 
-DB_PATH = "smartpantry.db"
-JSON_PATH = "pantry.json"
+DB_PATH = "data/smartpantry.db"
+
+ALLOWED_PRODUCT_SORT_COLS = {"product_id", "name", "quantity", "exp_date", "weight"}
 
 def get_connection(db_path: str = DB_PATH) -> sqlite3.Connection:
     conn = sqlite3.connect(db_path)
@@ -23,9 +24,13 @@ CREATE TABLE IF NOT EXISTS food_products (
     product_id INTEGER PRIMARY KEY AUTOINCREMENT,
     shelf_id INTEGER NOT NULL,
     name TEXT NOT NULL,
-    quantity REAL NOT NULL CHECK (quantity > 0.0),
+    quantity REAL NOT NULL CHECK (quantity > 0),
     unit TEXT NOT NULL CHECK (unit IN ('g', 'kg', 'ml', 'l', 'szt')),
     exp_date TEXT NOT NULL,
+    type TEXT NOT NULL DEFAULT 'dry',
+    weight REAL NOT NULL DEFAULT 0.0,
+    storage_temp REAL,
+    max_humidity INTEGER,
     FOREIGN KEY (shelf_id) REFERENCES pantry_shelves(shelf_id) ON DELETE CASCADE
 );
 """
@@ -54,16 +59,23 @@ class PantryRepository:
                     p["name"],
                     p["quantity"],
                     p["unit"],
-                    p["exp_date"]
+                    p["exp_date"],
+                    p.get("type", "dry"),
+                    p.get("weight", 0.0),
+                    p.get("storage_temp"),
+                    p.get("max_humidity"),
                 )
                 for p in products
             ]
 
             self._conn.executemany(
                 """
-                INSERT INTO food_products (shelf_id, name, quantity, unit, exp_date)
-                VALUES (?, ?, ?, ?, ?);
-                """,
+                                INSERT INTO food_products (
+                                    shelf_id, name, quantity, unit, exp_date,
+                                    type, weight, storage_temp, max_humidity
+                                )
+                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+                                """,
                 payload
             )
             return shelf_id
@@ -79,5 +91,30 @@ class PantryRepository:
         )
         return cursor.fetchall()
 
+    def search_products (
+            self,
+            phrase: str,
+            unit: str | None = None,
+            max_exp_date: str | None = None,
+            sort_by: str = "exp_date",
+    ) -> List[Dict[str, Any]]:
+        if sort_by not in ALLOWED_PRODUCT_SORT_COLS:
+            raise ValueError("Niedozwolona kolumna sortowania: {sort_by}")
+
+        sql = (
+            "SELECT product_id, shelf_id, name, quantity, unit, exp_date, type, weight "
+            "FROM food_products "
+            "WHERE name LIKE :pattern "
+            "AND (:unit IS NULL OR unit = :unit) "
+            "AND (:max_exp_date IS NULL OR exp_date <= :max_exp_date) "
+            f"ORDER BY {sort_by} ASC;"
+        )
+        params = {
+            "pattern": f"%{phrase}%",
+            "unit": unit,
+            "max_exp_date": max_exp_date,
+        }
+        rows = self._conn.execute(sql, params).fetchall()
+        return [dict(r) for r in rows]
 
 
